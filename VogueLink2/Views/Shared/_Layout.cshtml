@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="~/Content/bootstrap-litera.css" rel="stylesheet" />
+</head>
+<body id="page-top">
+    <!-- Navigation-->
+
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">VogueLink</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            Home
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+                    @if (Session["Seller_Email"] != null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("OrderListDeli", "SellerAccess")">Deivered</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("OrderListtodo", "SellerAccess")">To Do</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("AddProduct", "SellerAccess")">Add Product</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("UpdateProduct", "SellerAccess")">Update Product</a>
+                        </li>
+                    }
+                    else if (Session["Admin_Email"] != null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Approve", "Admin")">Approve Seller</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("OrderControl", "Admin")">Transactions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("InvoiceControl", "Admin")">Orders</a>
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("AllProduct", "Home")">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Cart", "UserAccess")">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Favourite", "UserAccess")">Favourite</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("OrderList", "UserAccess")">Orders</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Men", "Home")">Men</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Women", "Home")">Women</a>
+                        </li>
+                    }
+
+
+                </ul>
+                <div class="d-flex">
+                    @if (Session["Customer_Email"] != null)
+                    {
+                        <p style="color:#ffffff;margin-top:15px;">
+                            Hello @Session["Customer_FName"]
+                            <a class="nav-item">@Html.ActionLink("Logout", "Logout", "UserAccess")</a>
+                        </p>
+                    }
+                    else if (Session["Seller_Email"] != null)
+                    {
+                        <p style="color:#ffffff;margin-top:15px;">
+                            Hello @Session["Seller_BrandName"]
+                            <a class="nav-item">@Html.ActionLink("Logout", "Logout", "SellerAccess")</a>
+                        </p>
+                    }
+                    else if (Session["Admin_Email"] != null)
+                    {
+                        <p style="color:#ffffff;margin-top:15px;">
+                            Hello @Session["Admin_Name"]
+                            <a class="nav-item">@Html.ActionLink("Logout", "Logout", "AdminAccess")</a>
+                        </p>
+                    }
+                    else
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="color: #ffffff;">Access   .</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="@Url.Action("Login", "UserAccess")">Login</a>
+                                <a class="dropdown-item" href="@Url.Action("Signup", "UserAccess")">SignUp</a>
+                                <a class="dropdown-item" href="@Url.Action("Login", "SellerAccess")">Seller</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="@Url.Action("AdminLogin", "AdminAccess")">Admin</a>
+                            </div>
+                        </li>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+
+
+        <!-- Contact-->
+        <section class="contact-section bg-black">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-map-marked-alt text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">Address</h4>
+                                <hr class="my-4 mx-auto" />
+                                <div class="small text-black-50">Love Road, Tejgaon, Dhaka-1204</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-envelope text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">Email</h4>
+                                <hr class="my-4 mx-auto" />
+                                <div class="small text-black-50"><a href="#!">voguelink@gmail.com</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-mobile-alt text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">Phone</h4>
+                                <hr class="my-4 mx-auto" />
+                                <div class="small text-black-50">+880 1253793638</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="social d-flex justify-content-center">
+                    <a class="mx-2" href="#!"><i class="fab fa-twitter"></i></a>
+                    <a class="mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
+                    <a class="mx-2" href="#!"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <!-- Footer-->
+            <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; VogueLink 2023 <br> @DateTime.Now </div></footer>
+            <!-- Bootstrap core JS-->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+            <!-- Core theme JS-->
+            <script src="~/Scripts/scripts.js"></script>
+            <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+            <!-- * *                               SB Forms JS                               * *-->
+            <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+            <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+            <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/scripts.js"></script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
